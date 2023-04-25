@@ -68,4 +68,16 @@ public class Campo {
     // se retorna false eh pq tem uma bomba por perto
    return neighbors.stream().noneMatch(v -> v.minado);
   }
+
+  public void undermine() {
+      minado = true;
+  }
+
+  public boolean isMarked() {
+    return marked;
+  }
+
+  public boolean isOpen() {
+    return open;
+  }
 }
