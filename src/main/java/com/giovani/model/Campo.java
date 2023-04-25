@@ -80,4 +80,45 @@ public class Campo {
   public boolean isOpen() {
     return open;
   }
+
+  public int getX() {
+    return x;
+  }
+
+  public int getY() {
+    return y;
+  }
+
+  public boolean goalAchived() {
+    // um campo desvendado eh quando ele nao esta minado e esta aberto.
+    boolean unraveledField = !minado && open;
+    // se o campo estiver minado e marcado ele esta protegido
+    boolean protectedField = minado && marked;
+    return unraveledField || protectedField;
+  }
+
+  public long minesInNeighborhood() {
+    // quantidade de minas ao redor.
+    return neighbors.stream().filter(v -> v.minado).count();
+  }
+
+  public void restart() {
+    open = false;
+    minado = false;
+    marked = false;
+  }
+  
+  public String toString() {
+    if(marked) {
+      return "x";
+    } else if (open && minado) {
+      return "*";
+    } else if (open && minesInNeighborhood() > 0) {
+      return Long.toString(minesInNeighborhood());
+    } else if (open) {
+      return "";
+    }
+
+    return "?";
+  }
 }
