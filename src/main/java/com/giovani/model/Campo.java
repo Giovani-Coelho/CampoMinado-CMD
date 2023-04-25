@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Campo {
   private boolean minado;
-  private boolean open;
+  private boolean toOpen;
   private boolean marked;
 
   private final int x;
@@ -43,15 +43,15 @@ public class Campo {
   }
 
   public void toggleMarking() {
-    if(!open) {
+    if(!toOpen) {
       marked = !marked;
     }
   }
 
   public boolean openField() {
     // soh pode abrir o campo se estiver fechado(false) e nao estiver marcado.
-    if(!open && !marked) {
-      open = true;
+    if(!toOpen && !marked) {
+      toOpen = true;
       if(minado) {
         throw new ExplosionException();
       }// se o campo em volta estiver seguro continue abrindo.
@@ -73,25 +73,27 @@ public class Campo {
       minado = true;
   }
 
+  public boolean isMinado() {
+    return minado;
+  }
+
   public boolean isMarked() {
     return marked;
   }
 
   public boolean isOpen() {
-    return open;
+    return toOpen ;
   }
 
   public int getX() {
     return x;
   }
 
-  public int getY() {
-    return y;
-  }
+  public int getY() { return y; }
 
   public boolean goalAchived() {
     // um campo desvendado eh quando ele nao esta minado e esta aberto.
-    boolean unraveledField = !minado && open;
+    boolean unraveledField = !minado && toOpen;
     // se o campo estiver minado e marcado ele esta protegido
     boolean protectedField = minado && marked;
     return unraveledField || protectedField;
@@ -103,22 +105,21 @@ public class Campo {
   }
 
   public void restart() {
-    open = false;
+    toOpen = false;
     minado = false;
     marked = false;
   }
-  
+
   public String toString() {
     if(marked) {
       return "x";
-    } else if (open && minado) {
+    } else if (toOpen && minado) {
       return "*";
-    } else if (open && minesInNeighborhood() > 0) {
+    } else if (toOpen && minesInNeighborhood() > 0) {
       return Long.toString(minesInNeighborhood());
-    } else if (open) {
-      return "";
+    } else if (toOpen) {
+      return " ";
     }
-
     return "?";
   }
 }
