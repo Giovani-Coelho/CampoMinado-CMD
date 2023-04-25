@@ -1,5 +1,7 @@
 package com.giovani.model;
 
+import com.giovani.error.ExplosionException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,5 +40,32 @@ public class Campo {
     }
 
     return false;
+  }
+
+  public void toggleMarking() {
+    if(!open) {
+      marked = !marked;
+    }
+  }
+
+  public boolean openField() {
+    // soh pode abrir o campo se estiver fechado(false) e nao estiver marcado.
+    if(!open && !marked) {
+      open = true;
+      if(minado) {
+        throw new ExplosionException();
+      }// se o campo em volta estiver seguro continue abrindo.
+      if(safeNeighborhood()) {
+        neighbors.forEach(v -> v.openField());
+      }
+      return true;
+    }
+
+    return false;
+  }
+
+  public boolean safeNeighborhood() {
+    // se retorna false eh pq tem uma bomba por perto
+   return neighbors.stream().noneMatch(v -> v.minado);
   }
 }
