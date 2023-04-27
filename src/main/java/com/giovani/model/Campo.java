@@ -92,15 +92,12 @@ public class Campo {
   public int getY() { return y; }
 
   public boolean goalAchived() {
-    // um campo desvendado eh quando ele nao esta minado e esta aberto.
     boolean unraveledField = !minado && toOpen;
-    // se o campo estiver minado e marcado ele esta protegido
     boolean protectedField = minado && marked;
     return unraveledField || protectedField;
   }
 
   public long minesInNeighborhood() {
-    // quantidade de minas ao redor.
     return neighbors.stream().filter(v -> v.minado).count();
   }
 

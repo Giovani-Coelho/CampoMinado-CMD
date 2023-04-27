@@ -50,14 +50,13 @@ public class Tabuleiro {
       }
     }
   }
-  // sortear as minas em algum lugar do tabuleiro
+
   private void raffleMines() {
     long armedMines = 0;
     Predicate<Campo> mined = c -> c.isMinado();
 
     do {
       int aleatorio = (int) (Math.random() * fields.size());
-      // coloca a mina
       fields.get(aleatorio).undermine();
       armedMines = fields.stream().filter(mined).count();
     } while (armedMines < mines);
