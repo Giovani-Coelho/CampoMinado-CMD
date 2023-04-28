@@ -1,5 +1,7 @@
 package com.giovani.model;
 
+import com.giovani.error.ExplosionException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -22,10 +24,16 @@ public class Tabuleiro {
   }
 
   public void open(int x, int y) {
-    fields.parallelStream()
-            .filter(c -> c.getX() == x && c.getY() == y)
-            .findFirst()
-            .ifPresent((c -> c.openField()));
+    try {
+      fields.parallelStream()
+              .filter(c -> c.getX() == x && c.getY() == y)
+              .findFirst()
+              .ifPresent((c -> c.openField()));
+    } catch (ExplosionException e) {
+      // para mostrar onde estao as bombas
+      fields.forEach(f -> f.setOpen(true));
+      throw e;
+    }
   }
 
   public void toggleMarkup(int x, int y) {

@@ -85,6 +85,10 @@ public class Campo {
     return toOpen ;
   }
 
+  public void setOpen(boolean open) {
+    this.toOpen = open;
+  }
+
   public int getX() {
     return x;
   }
